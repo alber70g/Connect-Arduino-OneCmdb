@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0-*",
+  "description": "ConsoleApplication Console Application",
+  "tags": [""],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "dependencies": {
+    "RestSharp": "105.2.3"
+  },
+
+  "commands": {
+    "run": "run"
+  },
+
+  "frameworks": {
+    "dnx451": {}
+  }
+}
