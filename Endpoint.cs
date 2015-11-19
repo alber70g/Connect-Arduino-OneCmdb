@@ -18,7 +18,7 @@ namespace ConsoleApplication
             getRequest.AddQueryParameter("pwd", "123");
 
             var authResponse = _restClient.Get(getRequest);
-
+            
             if (authResponse.StatusCode == HttpStatusCode.OK)
             {
                 _authToken = authResponse.Content;
@@ -34,6 +34,7 @@ namespace ConsoleApplication
 
         public void UpdateDevice(string deviceId, string location)
         {
+            System.Console.WriteLine($"Update {deviceId} to location {location}");
             var getRequest = new RestRequest();
 
             getRequest.Resource = "remote/http/update";
