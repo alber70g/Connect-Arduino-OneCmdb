@@ -19,11 +19,12 @@ namespace ConsoleApplication
             _port = new SerialPort();
             _port.BaudRate = this.BaudRate;
             _port.PortName = this.PortName;
+            
             _port.Open();
         }
-        public string ReadInput()
+        public SerialPort GetPort()
         {
-            return _port.ReadLine();
+            return _port;
         }
     }
 
