@@ -6,7 +6,7 @@ namespace ConsoleApplication
     {
         public int BaudRate { get { return 115200; } }
         public abstract string PortName { get; }
-        public abstract string Location { get; }
+        public abstract string Alias { get; }
 
         private SerialPort _port;
 
@@ -31,13 +31,13 @@ namespace ConsoleApplication
     public class Arduino1 : Arduino
     {
         public override string PortName { get { return "/dev/cu.usbmodem641"; } }
-        public override string Location { get { return "Location2"; } }
+        public override string Alias { get { return "Reader1"; } }
     }
 
 
     public class Arduino2 : Arduino
     {
         public override string PortName { get { return "/dev/cu.usbmodem411"; } }
-        public override string Location { get { return "Location1"; } }
+        public override string Alias { get { return "Reader2"; } }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ConsoleApplication
 {
@@ -20,7 +21,7 @@ namespace ConsoleApplication
                 try
                 {
                     rfidReader.OpenPort();
-                    System.Console.WriteLine($"'{rfidReader.Location}' found");
+                    System.Console.WriteLine($"'{rfidReader.Alias}' found");
 
                     WaitHandle waitHandle = new AutoResetEvent(false);
 
@@ -32,10 +33,30 @@ namespace ConsoleApplication
                         while (port.IsOpen)
                         {
                             var id = findUID(port, 0, "");
-
+                            
                             if (id != "empty")
                             {
-                                cmdbServer.UpdateDevice(id, rfidReader.Location);
+                                System.Console.WriteLine("id found " + id);
+                                
+                                id = "ID" + id.Replace(" ", "");
+                                
+                                System.Console.WriteLine("new id " + id);
+                                // get item by id
+                                var derivedFrom = cmdbServer.GetDerivedFrom(id);
+                                System.Console.WriteLine($"'{derivedFrom}'");
+                                // if location
+                                if (derivedFrom == "Location".Trim()){
+                                    System.Console.WriteLine("it is location");
+                                    // update reader location
+                                    cmdbServer.UpdateReaderLocation(rfidReader.Alias, id);
+                                } else {
+                                    System.Console.WriteLine("it is asset");
+                                    // if asset
+                                    // get location from reader
+                                    var location = cmdbServer.GetAliasLocation(rfidReader.Alias);
+                                    
+                                    cmdbServer.UpdateDevice(id, location);
+                                }
                             }
                         
                 }
@@ -43,7 +64,7 @@ namespace ConsoleApplication
                 }
                 catch (System.IO.IOException)
                 {
-                    System.Console.WriteLine($"'{rfidReader.Location}' not found");
+                    System.Console.WriteLine($"'{rfidReader.Alias}' not found");
                 }
             });
 
